@@ -7,6 +7,10 @@ contract TokensContract {
 
     event Transfer(address indexed from, address indexed to, uint256 value);
 
+    receive() external payable {
+        balances[msg.sender] += msg.value;
+    }
+
     function transfer(address to, uint256 value) public returns (bool) {
         require(balances[msg.sender] >= value, "Insufficient balance");
 
