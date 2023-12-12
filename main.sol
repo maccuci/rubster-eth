@@ -2,7 +2,7 @@
 
 pragma solidity ^0.8.0;
 
-contract Main {
+contract TokensContract {
     mapping(address => uint256) public balances;
 
     event Transfer(address indexed from, address indexed to, uint256 value);

@@ -1,5 +1,5 @@
-const ethers = require("ethers");
-const contractCode = require("./bin/Main.json");
+const { ethers } = require("ethers");
+const contractCode = require("./bin/TokensContract.json");
 const dotenv = require("dotenv");
 
 async function deploy() {
@@ -16,19 +16,21 @@ async function deploy() {
   );
   const contract = await factory.deploy();
 
-  if (contract.deploymentTransaction()) {
-    contract.on("Transfer", (from, to, value, event) => {
-      let transferEvent = {
-        from: from,
-        to: to,
-        value: value,
-        eventData: event,
-      };
+  if (contract.deploymentTransaction) {
+    const nonce = await provider.getTransactionCount(wallet.address);
+
+    const tx = await wallet.sendTransaction({
+      to: contract.address,
+      value: ethers.parseEther("1.0"),
+      nonce: nonce + 1,
     });
+
+    await tx.wait();
+
+    console.log(`Transferência implementada: Contrato recebeu ${ethers.utils.formatEther(newValue)} ETH.`);
     
-      contract.getAddress().then((address) => {
-        console.log("O contrato foi implantado com sucesso em:", address);
-      })
+    const saldoContrato = await provider.getBalance(contract.address);
+    console.log(`Saldo atual do contrato: ${ethers.utils.formatEther(saldoContrato)} ETH.`);
   } else {
     console.error("O contrato não foi implantado com sucesso.");
   }
