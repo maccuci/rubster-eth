@@ -1,7 +1,8 @@
 const { ethers } = require("ethers");
 const contractCode = require("../bin/TokensContract.json");
-const dotenv = require("dotenv");
 const { networks } = require("../truffle");
+
+const dotenv = require("dotenv");
 
 async function deploy() {
   dotenv.config();
@@ -25,7 +26,7 @@ async function deploy() {
     const tx = await wallet.sendTransaction({
       to: contract.address,
       value: ethers.parseEther("1.0"),
-      nonce: nonce,
+      nonce: nonce + 1,
     });
 
     await tx.wait();

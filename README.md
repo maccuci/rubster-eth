@@ -1,6 +1,6 @@
 # rubster-eth
 
-``truffle.js`` **>** ganache config file.
+``truffle.js`` **>** Ganache config file.
 
 ``contracts/`` **>** Solidity contracts.
 
